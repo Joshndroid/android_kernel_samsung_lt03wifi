@@ -410,7 +410,7 @@ Einval:
  */
 static int parse_command(const char __user *buffer, size_t count)
 {
-	char s[4];
+	char s[count];
 
 	if (!count)
 		return 0;

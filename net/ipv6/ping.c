@@ -81,11 +81,11 @@ int dummy_ipv6_chk_addr(struct net *net, const struct in6_addr *addr,
 
 int __init pingv6_init(void)
 {
-	pingv6_ops.ipv6_recv_error = ipv6_recv_error;
-	pingv6_ops.datagram_recv_ctl = datagram_recv_ctl;
-	pingv6_ops.icmpv6_err_convert = icmpv6_err_convert;
-	pingv6_ops.ipv6_icmp_error = ipv6_icmp_error;
-	pingv6_ops.ipv6_chk_addr = ipv6_chk_addr;
+    pingv6_ops.ipv6_recv_error = dummy_ipv6_recv_error;
+	pingv6_ops.datagram_recv_ctl = dummy_datagram_recv_ctl;
+	pingv6_ops.icmpv6_err_convert = dummy_icmpv6_err_convert;
+	pingv6_ops.ipv6_icmp_error = dummy_ipv6_icmp_error;
+    pingv6_ops.ipv6_chk_addr = dummy_ipv6_chk_addr;
 	return inet6_register_protosw(&pingv6_protosw);
 }
 
