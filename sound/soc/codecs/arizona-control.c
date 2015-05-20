@@ -178,7 +178,7 @@ static struct arizona_control ctls[] = {
 	/* Master switches */
 
 	_ctl("switch_eq_headphone", CTL_VIRTUAL, 0, 0, 0, hp_callback),
-	_ctl("switch_drc_headphone", CTL_VIRTUAL, 0, 0, 0, hp_callback),
+	_ctl("switch_drc_speaker", CTL_VIRTUAL, 0, 0, 0, sp_callback),
 	_ctl("switch_eq_speaker", CTL_VIRTUAL, 0, 0, 0, sp_callback),
 	_ctl("switch_hp_mono", CTL_VIRTUAL, 0, 0, 0, hp_callback),
 	_ctl("switch_sp_privacy", CTL_VIRTUAL, 0, 0, 0, sp_power),
@@ -281,45 +281,45 @@ static struct arizona_control ctls[] = {
 
 	/* DRC Configurables */
 
-	_ctl("drc_hp_noise_gate", CTL_ACTIVE, ARIZONA_DRC1_CTRL1,
+	_ctl("drc_noise_gate", CTL_ACTIVE, ARIZONA_DRC1_CTRL1,
 		ARIZONA_DRC1_NG_ENA_MASK, ARIZONA_DRC1_NG_ENA_SHIFT, __simple),
-	_ctl("drc_hp_anticlip", CTL_ACTIVE, ARIZONA_DRC1_CTRL1,
+	_ctl("drc_anticlip", CTL_ACTIVE, ARIZONA_DRC1_CTRL1,
 		ARIZONA_DRC1_ANTICLIP_MASK, ARIZONA_DRC1_ANTICLIP_SHIFT, __simple),
-	_ctl("drc_hp_knee2_operation", CTL_ACTIVE, ARIZONA_DRC1_CTRL1,
+	_ctl("drc_knee2_operation", CTL_ACTIVE, ARIZONA_DRC1_CTRL1,
 		ARIZONA_DRC1_KNEE2_OP_ENA_MASK, ARIZONA_DRC1_KNEE2_OP_ENA_SHIFT, __simple),
-	_ctl("drc_hp_quick_release", CTL_ACTIVE, ARIZONA_DRC1_CTRL1,
+	_ctl("drc_quick_release", CTL_ACTIVE, ARIZONA_DRC1_CTRL1,
 		ARIZONA_DRC1_QR_MASK, ARIZONA_DRC1_QR_SHIFT, __simple),
 
-	_ctl("drc_hp_attack_rate", CTL_ACTIVE, ARIZONA_DRC1_CTRL2,
+	_ctl("drc_attack_rate", CTL_ACTIVE, ARIZONA_DRC1_CTRL2,
 		ARIZONA_DRC1_ATK_MASK, ARIZONA_DRC1_ATK_SHIFT, __simple),
-	_ctl("drc_hp_decay_rate", CTL_ACTIVE, ARIZONA_DRC1_CTRL2,
+	_ctl("drc_decay_rate", CTL_ACTIVE, ARIZONA_DRC1_CTRL2,
 		ARIZONA_DRC1_ATK_MASK, ARIZONA_DRC1_ATK_SHIFT, __simple),
-	_ctl("drc_hp_min_gain", CTL_ACTIVE, ARIZONA_DRC1_CTRL2,
+	_ctl("drc_min_gain", CTL_ACTIVE, ARIZONA_DRC1_CTRL2,
 		ARIZONA_DRC1_MINGAIN_MASK, ARIZONA_DRC1_MINGAIN_SHIFT, __simple),
-	_ctl("drc_hp_max_gain", CTL_ACTIVE, ARIZONA_DRC1_CTRL2,
+	_ctl("drc_max_gain", CTL_ACTIVE, ARIZONA_DRC1_CTRL2,
 		ARIZONA_DRC1_MAXGAIN_MASK, ARIZONA_DRC1_MAXGAIN_SHIFT, __simple),
 
-	_ctl("drc_hp_noise_gate_min", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
+	_ctl("drc_noise_gate_min", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
 		ARIZONA_DRC1_NG_MINGAIN_MASK, ARIZONA_DRC1_NG_MINGAIN_SHIFT, __simple),
-	_ctl("drc_hp_noise_gate_expansion", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
+	_ctl("drc_noise_gate_expansion", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
 		ARIZONA_DRC1_NG_EXP_MASK, ARIZONA_DRC1_NG_EXP_SHIFT, __simple),
-	_ctl("drc_hp_quick_release_threshold", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
+	_ctl("drc_quick_release_threshold", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
 		ARIZONA_DRC1_QR_THR_MASK, ARIZONA_DRC1_QR_THR_SHIFT, __simple),
-	_ctl("drc_hp_quick_release_decay", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
+	_ctl("drc_quick_release_decay", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
 		ARIZONA_DRC1_QR_DCY_MASK, ARIZONA_DRC1_QR_DCY_SHIFT, __simple),
-	_ctl("drc_hp_high_compression", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
+	_ctl("drc_high_compression", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
 		ARIZONA_DRC1_HI_COMP_MASK, ARIZONA_DRC1_HI_COMP_SHIFT, __simple),
-	_ctl("drc_hp_low_compression", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
+	_ctl("drc_low_compression", CTL_ACTIVE, ARIZONA_DRC1_CTRL3,
 		ARIZONA_DRC1_LO_COMP_MASK, ARIZONA_DRC1_LO_COMP_SHIFT, __simple),
 
-	_ctl("drc_hp_knee_input", CTL_ACTIVE, ARIZONA_DRC1_CTRL4,
+	_ctl("drc_knee_input", CTL_ACTIVE, ARIZONA_DRC1_CTRL4,
 		ARIZONA_DRC1_KNEE_IP_MASK, ARIZONA_DRC1_KNEE_IP_SHIFT, __simple),
-	_ctl("drc_hp_knee_output", CTL_ACTIVE, ARIZONA_DRC1_CTRL4,
+	_ctl("drc_knee_output", CTL_ACTIVE, ARIZONA_DRC1_CTRL4,
 		ARIZONA_DRC1_KNEE_OP_MASK, ARIZONA_DRC1_KNEE_OP_SHIFT, __simple),
 
-	_ctl("drc_hp_knee2_input", CTL_ACTIVE, ARIZONA_DRC1_CTRL5,
+	_ctl("drc_knee2_input", CTL_ACTIVE, ARIZONA_DRC1_CTRL5,
 		ARIZONA_DRC1_KNEE2_IP_MASK, ARIZONA_DRC1_KNEE2_IP_SHIFT, __simple),
-	_ctl("drc_hp_knee2_output", CTL_ACTIVE, ARIZONA_DRC1_CTRL5,
+	_ctl("drc_knee2_output", CTL_ACTIVE, ARIZONA_DRC1_CTRL5,
 		ARIZONA_DRC1_KNEE2_OP_MASK, ARIZONA_DRC1_KNEE2_OP_SHIFT, __simple),
 };
 
@@ -327,8 +327,6 @@ static unsigned int hp_power(struct arizona_control *ctl)
 {
 	_ctl_set(&ctls[EQ1ENA], ctl->ctlval && ctls[EQ_HP].value);
 	_ctl_set(&ctls[EQ2ENA], ctl->ctlval && ctls[EQ_HP].value && (!ctls[HP_MONO].value || ctls[HP_MONO].value == NOT_INIT));
-	_ctl_set(&ctls[DRC1LENA], ctl->ctlval && ctls[DRC_HP].value);
-	_ctl_set(&ctls[DRC1RENA], ctl->ctlval && ctls[DRC_HP].value);
 
 	return ctl->ctlval;
 }
@@ -337,8 +335,6 @@ static unsigned int hp_callback(struct arizona_control *ctl)
 {
 	static bool eq_bridge = false;
 	static bool eq_bridge_live = false;
-	static bool drc_bridge = false;
-	static bool drc_bridge_live = false;
 	static bool mono_bridge = false;
 	static bool mono_bridge_live = false;
 
@@ -346,37 +342,19 @@ static unsigned int hp_callback(struct arizona_control *ctl)
 		if (ctl == &ctls[EQ_HP])
 			eq_bridge = !!ctl->value;
 
-		if (ctl == &ctls[DRC_HP])
-			drc_bridge = !!ctl->value;
-
 		if (ctl == &ctls[HP_MONO])
 			mono_bridge = !!ctl->value;
 	}
 
-	if (eq_bridge != eq_bridge_live || drc_bridge != drc_bridge_live ||
-	    mono_bridge != mono_bridge_live ) {
+	if (eq_bridge != eq_bridge_live || mono_bridge != mono_bridge_live ) {
 		if (eq_bridge) {
 			_ctl_set(&ctls[EQ1MIX1], 32);
 			_ctl_set(&ctls[EQ1MIX2], mono_bridge ? 33 : 0);
 			_ctl_set(&ctls[EQ2MIX1], 33);
-			if (drc_bridge) {
-				_ctl_set(&ctls[DRC1L1], 80);
-				_ctl_set(&ctls[DRC1R1], mono_bridge ? 80 : 81);
-				_ctl_set(&ctls[HPOUT1L1], 88);
-				_ctl_set(&ctls[HPOUT1R1], 89);
-			} else {
-				_ctl_set(&ctls[HPOUT1L1], 80);
-				_ctl_set(&ctls[HPOUT1R1], mono_bridge ? 80 : 81);
-			}
+			_ctl_set(&ctls[HPOUT1L1], 80);
+			_ctl_set(&ctls[HPOUT1R1], mono_bridge ? 80 : 81);
 			_ctl_set(&ctls[HPOUT1L2], 0);
 			_ctl_set(&ctls[HPOUT1R2], 0);
-		} else if (drc_bridge) {
-			_ctl_set(&ctls[DRC1L1], 32);
-			_ctl_set(&ctls[DRC1R1], 33);
-			_ctl_set(&ctls[HPOUT1L1], 88);
-			_ctl_set(&ctls[HPOUT1R1], 89);
-			_ctl_set(&ctls[HPOUT1L2], mono_bridge ? 89 : 0);
-			_ctl_set(&ctls[HPOUT1R2], mono_bridge ? 88 : 0);
 		} else {
 			_ctl_set(&ctls[HPOUT1L1], 32);
 			_ctl_set(&ctls[HPOUT1R1], 33);
@@ -384,13 +362,10 @@ static unsigned int hp_callback(struct arizona_control *ctl)
 			_ctl_set(&ctls[HPOUT1R2], mono_bridge ? 32 : 0);
 		}
 		
-		_ctl_set(&ctls[DRC1LENA], drc_bridge);
-		_ctl_set(&ctls[DRC1RENA], drc_bridge);
 		_ctl_set(&ctls[EQ1ENA], eq_bridge);
 		_ctl_set(&ctls[EQ2ENA], eq_bridge && !mono_bridge);
 
 		eq_bridge_live = eq_bridge;
-		drc_bridge_live = drc_bridge;
 		mono_bridge_live = mono_bridge;
 	}
 	
@@ -423,6 +398,8 @@ static unsigned int sp_power(struct arizona_control *ctl)
 {
 	_ctl_set(&ctls[EQ3ENA], ctl->ctlval && ctls[EQ_SP].value);
 	_ctl_set(&ctls[EQ4ENA], ctl->ctlval && ctls[EQ_SP].value);
+	_ctl_set(&ctls[DRC1LENA], ctl->ctlval && ctls[DRC_HP].value);
+	_ctl_set(&ctls[DRC1RENA], ctl->ctlval && ctls[DRC_HP].value);
 
 	return ctl->ctlval && !(ctls[SP_PRIV].value && ctls[POUT1L].ctlval);
 }
@@ -431,18 +408,37 @@ static unsigned int sp_callback(struct arizona_control *ctl)
 {
 	static bool eq_bridge = false;
 	static bool eq_bridge_live = false;
+	static bool drc_bridge = false;
+	static bool drc_bridge_live = false;
 
 	if (ctl->type == CTL_VIRTUAL) {
 		if (ctl == &ctls[EQ_SP])
 			eq_bridge = !!ctl->value;
 	}
 
-	if (eq_bridge != eq_bridge_live) {
+	if (ctl == &ctls[DRC_HP])
+		drc_bridge = !!ctl->value;
+
+	if (eq_bridge != eq_bridge_live || drc_bridge != drc_bridge_live) {
 		if (eq_bridge) {
 			_ctl_set(&ctls[EQ3MIX1], 32);
 			_ctl_set(&ctls[EQ4MIX1], 33);
-			_ctl_set(&ctls[SPOUT1L1], 82);
-			_ctl_set(&ctls[SPOUT1R1], 83);
+			if (drc_bridge) {
+				_ctl_set(&ctls[DRC1L1], 82);
+				_ctl_set(&ctls[DRC1R1], 83);
+				_ctl_set(&ctls[SPOUT1L1], 88);
+				_ctl_set(&ctls[SPOUT1R1], 89);
+			} else {
+				_ctl_set(&ctls[SPOUT1L1], 82);
+				_ctl_set(&ctls[SPOUT1R1], 83);
+			}
+			_ctl_set(&ctls[SPOUT1L2], 0);
+			_ctl_set(&ctls[SPOUT1R2], 0);
+		} else if (drc_bridge) {
+			_ctl_set(&ctls[DRC1L1], 32);
+			_ctl_set(&ctls[DRC1R1], 33);
+			_ctl_set(&ctls[SPOUT1L1], 88);
+			_ctl_set(&ctls[SPOUT1R1], 89);
 			_ctl_set(&ctls[SPOUT1L2], 0);
 			_ctl_set(&ctls[SPOUT1R2], 0);
 		} else {
@@ -452,12 +448,15 @@ static unsigned int sp_callback(struct arizona_control *ctl)
 			_ctl_set(&ctls[SPOUT1R2], 0);
 		}
 
+		_ctl_set(&ctls[DRC1LENA], drc_bridge);
+		_ctl_set(&ctls[DRC1RENA], drc_bridge);
 		_ctl_set(&ctls[EQ3ENA], eq_bridge);
 		_ctl_set(&ctls[EQ4ENA], eq_bridge);
 		_ctl_set(&ctls[SPKLVOL], ctls[SPKLVOL].value);
 		_ctl_set(&ctls[SPKRVOL], ctls[SPKRVOL].value);
 
 		eq_bridge_live = eq_bridge;
+		drc_bridge_live = drc_bridge;
 	}
 
 	return ctl->value;
