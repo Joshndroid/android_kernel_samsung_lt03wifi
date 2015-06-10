@@ -1459,7 +1459,7 @@ static ssize_t show_cpu_util(
 			ret += sprintf(buf + ret, "OFF ");
 	}
 
-	ret += sprintf(buf + --ret, "\n");
+	sprintf(buf + ret - 1, "\n");
 	return ret;
 }
 
