@@ -1503,11 +1503,6 @@ static void sec_bat_get_battery_info(
 
 	value.intval = SEC_BATTEY_CURRENT_MA;
 	psy_do_property("sec-fuelgauge", get,
-		POWER_SUPPLY_PROP_CURRENT_NOW, value);
-	battery->current_now = value.intval;
-
-	value.intval = SEC_BATTEY_CURRENT_MA;
-	psy_do_property("sec-fuelgauge", get,
 		POWER_SUPPLY_PROP_CURRENT_AVG, value);
 	battery->current_avg = value.intval;
 
