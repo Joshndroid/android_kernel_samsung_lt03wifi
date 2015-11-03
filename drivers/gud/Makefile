@@ -1,8 +1,7 @@
 #
 # Makefile for the kernel mobicore drivers
 #
-
-GUD_ROOT_FOLDER := $(src)
+GUD_ROOT_FOLDER := $(srctree)/drivers/gud
 
 # add our modules to kernel.
 obj-$(CONFIG_MOBICORE_API) += mcKernelApi.o

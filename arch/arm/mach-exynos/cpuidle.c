@@ -62,15 +62,15 @@
 #define EXYNOS_CHECK_DIRECTGO	0xFCBA0D10
 #define EXYNOS_CHECK_LPA	0xABAD0000
 
+#ifdef CONFIG_SND_SAMSUNG_USE_IDMA_DRAM
+extern int check_dram_status(void);
+#endif
+
 #ifdef CONFIG_SEC_PM
 #if defined(CONFIG_V1A) || defined(CONFIG_V2A)
 #define CPUIDLE_ENABLE_MASK (ENABLE_C2 | ENABLE_C3_AFTR)
 #else
 #define CPUIDLE_ENABLE_MASK (ENABLE_C2 | ENABLE_C3_AFTR | ENABLE_C3_LPA)
-#endif
-
-#ifdef CONFIG_SND_SAMSUNG_USE_IDMA_DRAM
-extern int check_dram_status(void);
 #endif
 
 static enum {

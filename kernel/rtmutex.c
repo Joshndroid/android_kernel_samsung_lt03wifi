@@ -776,7 +776,8 @@ rt_mutex_slowlock(struct rt_mutex *lock, int state,
 {
 	struct rt_mutex_waiter waiter;
 	int ret = 0;
-
+    
+    memset(&waiter, 0, sizeof(waiter));
 	debug_rt_mutex_init_waiter(&waiter);
 
 	raw_spin_lock(&lock->wait_lock);
