@@ -51,6 +51,7 @@ struct usb_id_info {
 	int intf_id;
 	int urb_cnt;
 	struct usb_link_device *usb_ld;
+	unsigned max_ch;
 
 	char *description;
 	int (*bind)(struct if_usb_devdata *, struct usb_interface *,
@@ -86,6 +87,7 @@ struct if_usb_devdata {
 
 	struct urb *intr_urb;
 	unsigned int rx_buf_size;
+	unsigned int rx_buf_setup;
 	enum ch_state state;
 
 	struct usb_id_info *info;
@@ -104,10 +106,17 @@ struct if_usb_devdata {
 	int net_suspend;
 	bool net_connected;
 
-	bool defered_rx;
-	struct delayed_work rx_defered_work;
-
 	struct mif_skb_pool *ntb_pool;
+
+	int (*submit_urbs)(struct if_usb_devdata *);
+	struct delayed_work kill_urbs_work;
+	atomic_t kill_urb;
+};
+
+enum resume_by_status {
+	HSIC_RESUMEBY_UNKNOWN,
+	HSIC_RESUMEBY_AP,
+	HSIC_RESUMEBY_CP,
 };
 
 struct usb_link_device {
@@ -120,13 +129,15 @@ struct usb_link_device {
 	int max_acm_ch;
 	int acm_cnt;
 	int ncm_cnt;
-	struct if_usb_devdata *devdata;
+	struct if_usb_devdata *acm_data;
+	struct if_usb_devdata *ncm_data;
 	unsigned int suspended;
 	int if_usb_connected;
 
 	struct mif_skb_pool skb_pool;
 	struct delayed_work link_event;
 	unsigned long events;
+
 	struct notifier_block phy_nfb;
 	struct notifier_block pm_nfb;
 
@@ -136,6 +147,7 @@ struct usb_link_device {
 	unsigned rx_cnt;
 	unsigned tx_err;
 	unsigned rx_err;
+	unsigned resumeby;
 
 	/* to decide the suitable function regarding pipe_data */
 	struct if_usb_devdata *(*get_pipe)(struct usb_link_device *ld,
@@ -153,6 +165,11 @@ enum bit_link_events {
 #define to_usb_link_device(linkdev) \
 			container_of(linkdev, struct usb_link_device, ld)
 
+#define get_pipedata_with_idx(usb_ld, idx) \
+	((idx < usb_ld->max_acm_ch) ? \
+	 &usb_ld->acm_data[idx] : \
+	 &usb_ld->ncm_data[idx - usb_ld->max_acm_ch])
+
 #ifdef FOR_TEGRA
 extern void tegra_ehci_txfilltuning(void);
 #define ehci_vendor_txfilltuning tegra_ehci_txfilltuning
@@ -162,4 +179,7 @@ extern void tegra_ehci_txfilltuning(void);
 
 int usb_tx_skb(struct if_usb_devdata *pipe_data, struct sk_buff *skb);
 extern int usb_resume(struct device *dev, pm_message_t msg);
+#if defined(CONFIG_UMTS_MODEM_XMM6360)
+int usb_linkpm_request_resume(struct usb_device *udev);
+#endif
 #endif
