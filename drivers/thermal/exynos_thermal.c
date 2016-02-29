@@ -286,7 +286,9 @@ static void exynos_report_trigger(void)
 			break;
 	}
 
+#ifdef CONFIG_THERMAL_DEBUG
 	pr_info("[TMU-IRQ] IRQ mode=%d\n",i);
+#endif
 	if (th_zone->mode == THERMAL_DEVICE_ENABLED) {
 		if (i > 0)
 			th_zone->therm_dev->polling_delay = ACTIVE_INTERVAL;
@@ -727,7 +729,9 @@ void exynos_tmu_call_notifier(enum tmu_noti_state_t cur_state)
 		else
 			blocking_notifier_call_chain(&exynos_tmu_notifier, cur_state, &tmu_old_state);
 
+#ifdef CONFIG_THERMAL_DEBUG
 		pr_info("tmu temperature state %d to %d \n", tmu_old_state, cur_state);
+#endif
 		tmu_old_state = cur_state;
 	}
 }
@@ -1120,7 +1124,9 @@ static void exynos_check_mif_noti_state(int temp)
 		cur_state = MEM_TH_LV3;
 
 	if (cur_state != mif_old_state) {
+#ifdef CONFIG_THERMAL_DEBUG
 		pr_info("tmu temperature state %d to %d \n", mif_old_state, cur_state);
+#endif
 		blocking_notifier_call_chain(&exynos_tmu_notifier, cur_state, &mif_old_state);
 		mif_old_state = cur_state;
 	}
