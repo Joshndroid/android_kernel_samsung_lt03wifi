@@ -16,6 +16,7 @@
 #ifndef __MODEM_IF_H__
 #define __MODEM_IF_H__
 
+#include <linux/platform_data/sipc_def.h>
 enum modem_t {
 	IMC_XMM6260,
 	IMC_XMM6262,
@@ -69,22 +70,23 @@ enum modem_network {
 	MAX_MODEM_NETWORK
 };
 
-enum sipc_ver {
-	NO_SIPC_VER = 0,
-	SIPC_VER_40 = 40,
-	SIPC_VER_41 = 41,
-	SIPC_VER_42 = 42,
-	SIPC_VER_50 = 50,
-	MAX_SIPC_VER
+enum iodev_attr_bit {
+	ATTR_SIPC4,
+	ATTR_SIPC5,
+	ATTR_CDC_NCM,
+	ATTR_MULTIFMT,
+	ATTR_HANDOVER,
+	ATTR_LEGACY_RFS,
+	ATTR_RX_FRAGMENT
 };
+#define IODEV_ATTR(b)	(0x1 << b)
 
 /**
  * struct modem_io_t - declaration for io_device
  * @name:	device name
- * @id:		for SIPC4, contains format & channel information
+ * @id:		contain format & channel information
  *		(id & 11100000b)>>5 = format  (eg, 0=FMT, 1=RAW, 2=RFS)
  *		(id & 00011111b)    = channel (valid only if format is RAW)
- *		for SIPC5, contains only 8-bit channel ID
  * @format:	device format
  * @io_type:	type of this io_device
  * @links:	list of link_devices to use this io_device
@@ -104,11 +106,14 @@ struct modem_io_t {
 	enum modem_io io_type;
 	enum modem_link links;
 	enum modem_link tx_link;
-	bool rx_gather;
+	unsigned attr;
+	int rxq_max;
+	unsigned multi_len;
 };
 
 struct modemlink_pm_data {
 	char *name;
+	struct device *dev;
 	/* link power contol 2 types : pin & regulator control */
 	int (*link_ldo_enable)(bool);
 	unsigned gpio_link_enable;
@@ -116,6 +121,7 @@ struct modemlink_pm_data {
 	unsigned gpio_link_hostwake;
 	unsigned gpio_link_slavewake;
 	unsigned gpio_link_suspend_req;
+	unsigned gpio_link_cp2ap_status;
 	int (*link_reconnect)(void);
 	int (*cp_force_crash_exit)(void);
 
@@ -127,8 +133,8 @@ struct modemlink_pm_data {
 
 	/* cpu/bus frequency lock */
 	atomic_t freqlock;
-	int (*freq_lock)(struct device *dev);
-	int (*freq_unlock)(struct device *dev);
+	void (*freq_lock)(unsigned long);
+	void (*freq_unlock)(void);
 
 	int autosuspend_delay_ms; /* if zero, the default value is used */
 	void (*ehci_reg_dump)(void);
@@ -338,10 +344,39 @@ struct modem_data {
 
 	int max_link_channel;
 	int max_acm_channel; /* will be remove... */
+	int max_tx_qlen;
 
 	/* Optional CP force crash */
 	int (*cp_force_crash)(void *);
 };
+
+#define mif_dt_read_enum(np, prop, dest) \
+	do { \
+		if (of_property_read_u32(np, prop, &val)) \
+			return -EINVAL; \
+		dest = (__typeof__(dest))(val); \
+	} while (0)
+
+#define mif_dt_read_bool(np, prop, dest) \
+	do { \
+		if (of_property_read_u32(np, prop, &val)) \
+			return -EINVAL; \
+		dest = (val) ? true : false; \
+	} while (0)
+
+#define mif_dt_read_string(np, prop, dest) \
+	do { \
+		if (of_property_read_string(np, prop, \
+				(const char **)&dest)) \
+			return -EINVAL; \
+	} while (0)
+
+#define mif_dt_read_u32(np, prop, dest) \
+	do { \
+		if (of_property_read_u32(np, prop, &val)) \
+			return -EINVAL; \
+		dest = (val); \
+	} while (0)
 
 #define LOG_TAG "mif: "
 
