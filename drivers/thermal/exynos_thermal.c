@@ -130,8 +130,8 @@
 #define HOT_95			95
 #define HOT_109			104
 #define HOT_110			105
-#define MEM_TH_TEMP1		75
-#define MEM_TH_TEMP2		85
+#define MEM_TH_TEMP1		70
+#define MEM_TH_TEMP2		80
 #define GPU_TH_TEMP1		90
 #define GPU_TH_TEMP2		95
 #define GPU_TH_TEMP3		100
@@ -1126,6 +1126,11 @@ static void exynos_check_mif_noti_state(int temp)
 	if (cur_state != mif_old_state) {
 #ifdef CONFIG_THERMAL_DEBUG
 		pr_info("tmu temperature state %d to %d \n", mif_old_state, cur_state);
+#endif
+#if 1 /* ONLY IF the normal and hot mem temp is same, skip duplicate setting */
+		if ((cur_state == MEM_TH_LV3) ||
+			((cur_state == MEM_TH_LV2) && (mif_old_state == MEM_TH_LV3)) ||
+			((cur_state == MEM_TH_LV1) && (mif_old_state == MEM_TH_LV3)) )
 #endif
 		blocking_notifier_call_chain(&exynos_tmu_notifier, cur_state, &mif_old_state);
 		mif_old_state = cur_state;
