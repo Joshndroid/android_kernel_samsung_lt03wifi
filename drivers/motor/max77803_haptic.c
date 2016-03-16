@@ -247,7 +247,6 @@ void vibtonz_pwm(int nForce)
 		return ;
 	}
 
-<<<<<<< HEAD
 	pwm_period = g_hap_data->pdata->period;
 	pwm_duty = pwm_period / 2 + ((pwm_period / 2 - 2) * nForce) / 127;
 
@@ -258,8 +257,6 @@ void vibtonz_pwm(int nForce)
 		pwm_duty = pwm_period - g_hap_data->pdata->duty;
 #endif
 
-=======
->>>>>>> b086f43... max77803_haptic: user configurable vibrator intensity
 	/* add to avoid the glitch issue */
 	if (prev_duty != pwm_duty) {
 		prev_duty = pwm_duty;
