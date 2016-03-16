@@ -332,6 +332,7 @@ header-y += rose.h
 header-y += route.h
 header-y += rtc.h
 header-y += rtnetlink.h
+header-y += s3c-fb.h
 header-y += scc.h
 header-y += sched.h
 header-y += screen_info.h
